@@ -7,7 +7,7 @@ game.StarterGui:SetCore("SendNotification", {
 _G.enable = false
 _G.color = Color3.fromRGB(255,0,0)
 _G.toggle_keybind = "p"
-_G.swith_player = 't' 
+_G.swith_nigga = 't' 
 _G.method = "MousePos"
 
 
@@ -180,60 +180,3 @@ if input.KeyCode == Enum.KeyCode.Z then
     end
 end
 end)
-
-getgenv().KeyBind = "v"
-
-local Players     = game:GetService("Players")
-local RunService  = game:GetService("RunService")
-local UIS = game:GetService("UserInputService")
-
-local LocalPlayer = Players.LocalPlayer
-local Character   = LocalPlayer.Character
-local RootPart    = Character:FindFirstChild("HumanoidRootPart")
-
-
-local Heartbeat, RStepped, Stepped = RunService.Heartbeat, RunService.RenderStepped, RunService.Stepped
-
-LocalPlayer.CharacterAdded:Connect(function(NewCharacter)
-Character = NewCharacter
-end)
-
-local RVelocity, YVelocity = nil, 0.1
-function sendnotifi(message)
-
-
-game.StarterGui:SetCore("SendNotification", {
-    Title =  '.gg/249Y8dCHpa;
-    Text = message;
-    Duration = "2";
-})
-end
-
-UIS.InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.Z then
-        if VelocityChanger == false then
-            sendnotifi("Anti-Lock Disabled")
-        elseif VelocityChanger == true then
-            sendnotifi("Anti-Lock Enabled")
-        end
-    end
-end)
-
-local lp = game.Players.LocalPlayer
-local runservice = game:GetService("RunService")
-getgenv().kf = true
-getgenv().xd = 0
-while getgenv().kf do     
-task.wait()     
-local loop = runservice.Heartbeat:Connect(function()         
-sethiddenproperty(lp.Character.HumanoidRootPart, "NetworkIsSleeping", true)         
-task.wait()         
-sethiddenproperty(lp.Character.HumanoidRootPart, "NetworkIsSleeping", false)     
-end) 
-task.wait(getgenv().xd)             
-if loop then         
-loop:Disconnect()     
-end 
-end  
-setfflag("S2PhysicsSenderRate", 0.05) 
-setfflag("PhysicsSenderMaxBandwidthBps", math.pi/10)
