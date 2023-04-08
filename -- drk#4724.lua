@@ -1,8 +1,13 @@
--- drk#4724
+-- drk4724 
+-- z = neck breaker
+-- x = desync
+-- v = sky
+-- p = aimviewer
+-- t = change target
 game.StarterGui:SetCore("SendNotification", {
     Title = 'anti loaded';
-    Text = '.gg/249Y8dCHpa';
-    Duration = "2";
+    Text = 'monkey balls';
+    Duration = "4";
 })
 _G.enable = false
 _G.color = Color3.fromRGB(255,0,0)
@@ -111,7 +116,7 @@ end)
 
 
 getgenv().VelocityChanger = false
-getgenv().Velocity = Vector3.new(200,700,200)
+getgenv().Velocity = Vector3.new(6500,400,0)
 getgenv().KeyBind = "z"
 
 local Players     = game:GetService("Players")
@@ -134,12 +139,11 @@ function sendnotifi(message)
 
 
 game.StarterGui:SetCore("SendNotification", {
-    Title =  '.gg/249Y8dCHpa;
+    Title =  '.gg/249Y8dCHpa';
     Text = message;
     Duration = "2";
 })
 end
-
 UIS.InputBegan:Connect(function(input)
     if input.KeyCode == Enum.KeyCode.Z then
         if VelocityChanger == false then
@@ -149,9 +153,6 @@ UIS.InputBegan:Connect(function(input)
         end
     end
 end)
-
-
-
 UIS.InputBegan:Connect(function(input)
 if not (UIS:GetFocusedTextBox()) then
 if input.KeyCode == Enum.KeyCode.Z then
@@ -166,11 +167,8 @@ if input.KeyCode == Enum.KeyCode.Z then
                         repeat task.wait() RootPart = Character:FindFirstChild("HumanoidRootPart") until RootPart ~= nil
                     else
                         RVelocity = RootPart.Velocity
-
                         RootPart.Velocity = type(Velocity) == "vector" and Velocity or Velocity(RVelocity)
-
                         RStepped:wait()
-
                         RootPart.Velocity = RVelocity
                     end
                 Heartbeat:wait()
@@ -180,3 +178,129 @@ if input.KeyCode == Enum.KeyCode.Z then
     end
 end
 end)
+
+local P1000ToggleKey = "x"
+
+--// Services
+checkcaller = checkcaller
+newcclosure = newcclosure
+hookmetamethod = hookmetamethod
+
+local PastedSources = false
+local BruhXD = game:GetService("RunService")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Bullshit = LocalPlayer:GetMouse()
+
+
+--// Toggles
+Bullshit.KeyDown:Connect(function(SayNoToOblivity)
+    if SayNoToOblivity == string.lower(P1000ToggleKey) then
+        pcall(function()
+            if PastedSources == false then
+                PastedSources = true
+                sendnotifi("Enabled desync")
+            elseif PastedSources == true then
+                PastedSources = false
+                sendnotifi("Disabled desync")
+            end
+        end)
+    end
+end)
+
+Bullshit.KeyDown:Connect(function(SayNoToOblivity)
+    if SayNoToOblivity == ("=") then
+        game:GetService("TeleportService"):Teleport(game.PlaceId, LocalPlayer) 
+    end
+end)
+
+
+--// Desync_Source
+function RandomNumberRange(a)
+    return math.random(-a * 100, a * 100) / 100
+end
+
+function RandomVectorRange(a, b, c)
+    return Vector3.new(RandomNumberRange(a), RandomNumberRange(b), RandomNumberRange(c))
+end
+
+
+local DesyncTypes = {}
+BruhXD.Heartbeat:Connect(function()
+    if PastedSources == true then
+        DesyncTypes[1] = LocalPlayer.Character.HumanoidRootPart.CFrame
+        DesyncTypes[2] = LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity
+
+        local SpoofThis = LocalPlayer.Character.HumanoidRootPart.CFrame
+
+        SpoofThis = SpoofThis * CFrame.new(Vector3.new(0, 0, 0))
+        SpoofThis = SpoofThis * CFrame.Angles(math.rad(RandomNumberRange(180)), math.rad(RandomNumberRange(180)), math.rad(RandomNumberRange(180)))
+
+        LocalPlayer.Character.HumanoidRootPart.CFrame = SpoofThis
+
+        LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(1, 1, 1) * 16384
+
+        BruhXD.RenderStepped:Wait()
+
+        LocalPlayer.Character.HumanoidRootPart.CFrame = DesyncTypes[1]
+        LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity = DesyncTypes[2]
+    end
+end)
+
+--// Hook_CFrame
+local XDDDDDD = nil
+XDDDDDD = hookmetamethod(game, "__index", newcclosure(function(self, key)
+    if PastedSources == true then
+        if not checkcaller() then
+            if key == "CFrame" and PastedSources == true and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character:FindFirstChild("Humanoid").Health > 0 then
+                if self == LocalPlayer.Character.HumanoidRootPart then
+                    return DesyncTypes[1] or CFrame.new()
+                elseif self == LocalPlayer.Character.Head then
+                    return DesyncTypes[1] and DesyncTypes[1] + Vector3.new(0, LocalPlayer.Character.HumanoidRootPart.Size / 2 + 0.5, 0) or CFrame.new()
+                end
+            end
+        end
+    end
+    return XDDDDDD(self, key)
+end))
+
+getgenv().Sky = false
+getgenv().SkyAmount = 840
+getgenv().KeyCode = Enum.KeyCode.V
+
+local function notif(text)
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = ".gg/249Y8dCHpa",
+            Text = text,
+            
+        }
+    )
+end
+
+local UIS = game:GetService("UserInputService")
+local plr = game.Players.LocalPlayer
+UIS.InputBegan:Connect(
+    function(input)
+        if input.KeyCode == getgenv().KeyCode then
+            if getgenv().Sky == true then
+                getgenv().Sky = false
+                notif("Disabled sky")
+            else
+                getgenv().Sky = true
+                notif("Enabled sky")
+            end
+        end
+    end
+)
+
+game:GetService("RunService").heartbeat:Connect(
+    function()
+        if getgenv().Sky ~= false then
+            local vel = plr.Character.HumanoidRootPart.Velocity
+            plr.Character.HumanoidRootPart.Velocity = Vector3.new(0, getgenv().SkyAmount, 0)
+            game:GetService("RunService").RenderStepped:Wait()
+            plr.Character.HumanoidRootPart.Velocity = vel
+        end
+    end
+)
